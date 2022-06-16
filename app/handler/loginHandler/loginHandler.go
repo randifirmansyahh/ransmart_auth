@@ -63,10 +63,10 @@ func (l *loginHandler) Login(w http.ResponseWriter, r *http.Request) {
 	newPassword := helper.Encode([]byte(datarequest.Password))
 	datarequest.Password = string(newPassword)
 
-	log.Println("ini " + cari.Username + " hehe " + cari.Password)
+	log.Println("ini " + cari.Username + " hehe " + string(newPassword))
 
 	// bandingkan
-	if cari.Username != datarequest.Username || cari.Password != datarequest.Password {
+	if cari.Username != datarequest.Username || string(newPassword) != datarequest.Password {
 		response.Response(w, http.StatusOK, "Password salah", nil)
 		return
 	}
