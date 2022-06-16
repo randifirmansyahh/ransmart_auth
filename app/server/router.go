@@ -79,8 +79,8 @@ func Execute() {
 		u.Delete("/user/{id}", user.DeleteUser)
 	})
 
-	host := os.Getenv("APP_LOCAL_HOST")
-	port := os.Getenv("APP_LOCAL_PORT")
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
 	log.Println("Service running on " + host + ":" + port)
 	if err := http.ListenAndServe(":"+port, r); err != nil {
 		log.Println("Error Starting Service")
