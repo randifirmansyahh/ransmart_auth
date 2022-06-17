@@ -2,6 +2,7 @@ package loginHandler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"ransmart_auth/app/helper/helper"
 	"ransmart_auth/app/helper/response"
@@ -60,10 +61,11 @@ func (l *loginHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	// hash password from request
 	newPassword := helper.Encode([]byte(datarequest.Password))
-	datarequest.Password = string(newPassword)
+
+	log.Println("ini " + cari.Username + " hehe " + string(newPassword))
 
 	// bandingkan
-	if cari.Username != datarequest.Username && string(newPassword) != datarequest.Password {
+	if cari.Username != datarequest.Username || string(newPassword) != datarequest.Password {
 		response.Response(w, http.StatusOK, "Password salah", nil)
 		return
 	}
