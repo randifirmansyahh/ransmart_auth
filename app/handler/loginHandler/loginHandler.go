@@ -60,12 +60,18 @@ func (l *loginHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// hash password from request
-	newPassword := helper.Encode([]byte(datarequest.Password))
+	reqPwd := helper.Encode([]byte(datarequest.Password))
+	CariPwd, err := helper.Decode([]byte(cari.Password))
+	if err != nil {
+		response.Response(w, http.StatusBadRequest, "Gagal login", nil)
+		return
+	}
 
-	log.Println("ini " + cari.Username + " hehe " + string(newPassword))
+	log.Println(string(CariPwd))
+	log.Println(string(reqPwd))
 
 	// bandingkan
-	if cari.Username != datarequest.Username || string(newPassword) != datarequest.Password {
+	if cari.Username != datarequest.Username || string(CariPwd) != string(reqPwd) {
 		response.Response(w, http.StatusOK, "Password salah", nil)
 		return
 	}
