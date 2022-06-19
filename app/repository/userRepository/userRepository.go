@@ -32,9 +32,13 @@ func (r *repository) FindByUsername(username string) (userModel.User, error) {
 	return user, err
 }
 
-func (r *repository) Create(user userModel.User) (userModel.User, error) {
-	err := r.db.Create(&user).Error
-	return user, err
+func (r *repository) Create(tx *gorm.DB, user userModel.User) (err error) {
+	if tx != nil {
+		err = tx.Create(&user).Error
+		return
+	}
+	err = r.db.Create(&user).Error
+	return
 }
 
 func (r *repository) UpdateV2(user userModel.User) (userModel.User, error) {

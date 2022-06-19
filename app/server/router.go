@@ -41,7 +41,7 @@ func Execute() {
 
 	// generate service
 	allServices := service.Service{
-		IUserService: userService.NewService(allRepositories),
+		IUserService: userService.NewService(allRepositories, db),
 	}
 
 	// generate handler

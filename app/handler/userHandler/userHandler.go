@@ -94,19 +94,16 @@ func (h *userHandler) PostUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// insert
-	created, err := h.service.IUserService.Create(datarequest)
+	err = h.service.IUserService.Create(datarequest)
 	if err != nil {
-		response.Response(w, http.StatusBadRequest, "Username sudah digunakan", nil)
+		response.Response(w, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
-	// delete cache from redis by key
-	go func() {
-		redisHelper.ClearRedis(h.redis, key_redis)
-	}()
+	go redisHelper.ClearRedis(h.redis, key_redis)
 
 	// response success
-	response.Response(w, http.StatusOK, response.MsgCreate(true, HandlerName), created)
+	response.Response(w, http.StatusOK, response.MsgCreate(true, HandlerName), nil)
 }
 
 func (h *userHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {

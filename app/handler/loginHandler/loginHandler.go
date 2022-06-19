@@ -131,7 +131,7 @@ func (l *loginHandler) Register(w http.ResponseWriter, r *http.Request) {
 	datarequest.Password = string(newPassword)
 
 	// insert ke db
-	_, err = l.service.IUserService.Create(datarequest)
+	err = l.service.IUserService.Create(datarequest)
 	if err != nil {
 		response.Response(w, http.StatusInternalServerError, "Gagal register", nil)
 		return
